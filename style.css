@@ -10,7 +10,7 @@ body {
 
 /* Navigation Bar */
 nav {
-    background: black; /* Changed banner color to black */
+    background: black;
     color: white;
     position: fixed;
     top: 0;
@@ -43,37 +43,15 @@ nav ul li a:hover {
 }
 
 /* Section Styling */
-.section {
+.container {
     padding: 4rem 1rem;
-    margin-top: 4rem; /* Prevent overlap with the fixed nav bar */
     max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 4rem auto 0;
 }
 
-#home {
+h1, h2 {
+    color: black;
     text-align: center;
-    background: black; /* Changed home section banner to black */
-    color: white;
-    padding: 6rem 1rem;
-}
-
-#home a {
-    color: #ffd700;
-    text-decoration: none;
-}
-
-.section h2 {
-    color: black; /* Black text for section titles */
-    margin-bottom: 1rem;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-ul li {
     margin-bottom: 1rem;
 }
 
