@@ -3,29 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anthony Winney - Home</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Anthony Winney's Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        h1 {
+            color: blue;
+        }
+        a {
+            color: orange;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="projects.html">Projects</a></li>
             <li><a href="education.html">Education</a></li>
             <li><a href="experience.html">Experience</a></li>
+            <li><a href="projects.html">Projects</a></li>
         </ul>
     </nav>
-
-    <!-- Content -->
     <div class="container">
-        <h1>Welcome to Anthony Winney's Website</h1>
-        <p>Hi! I'm Anthony, a passionate developer with experience in software development, research, and teaching. Explore my projects, educational background, and professional experience using the navigation links above.</p>
-    </div>
+        <h1>Hello World</h1>
+        <p>I’m a recent USC graduate with bachelor’s degrees in Mathematics and Computer Science. I’ve been lucky to work construction jobs in Los Angeles with my cousin Mikey, who is a personal contractor, since my graduation in May 2024. It’s been nice to take a break to work with my hands and learn some practical skills.</p>
+        <p>Now, I’m excited to start my STEM career, looking for work either as an aspiring actuary or backend software engineer. I’ve always been keen on math, in fact it’s still a dream to get a math PhD and teach/research sometime in the future. But I am focused on developing skills applicable for the current tech landscape, and I’d be grateful for whoever gives me a chance to work hard and gain some industry experience.</p>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Anthony Winney. All rights reserved.</p>
-    </footer>
+        <h2>Recent endeavors</h2>
+        <ul>
+            <li>Society of Actuaries Exams:</li>
+            <ul>
+                <li>Exam FM <span style="color: orange;">(scheduled)</span> for 2/15/25</li>
+                <li>Exam P <span style="color: green;">(passed)</span> 11/18/24</li>
+            </ul>
+        </ul>
+        <p>Working through <em>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</em> by Aurélien Géron. It’s a very practical book and I’ll have examples of my own code up here very soon. I plan to have a dedicated <a href="sports.html">sports page</a> for it, where I build out a sports prediction algorithm with the techniques I learn in this book.</p>
+
+        <p>I try to stay sharp. Recently finished (+ annotations) <em>Thus Spake Zarathustra</em> by Nietzsche, ¾ of the way through <em>Atlas Shrugged</em> by Rand, and just starting <em>Being and Nothingness</em> by Sartre. I also plan to continue to “take classes this semester” (ie. self-study) by following along with the semester’s schedule. Will update with work as Spring 2025 progresses.</p>
+    </div>
 </body>
 </html>
