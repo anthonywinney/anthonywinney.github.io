@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Winney - Projects</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="education.html">Education</a></li>
-                <li><a href="experience.html">Experience</a></li>
-                <li><a href="projects.html">Projects</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="experience.html">Experience</a></li>
+        </ul>
+    </nav>
+    <!-- Content -->
+    <div class="container">
         <h1>Projects</h1>
         
         <section>
             <h2>USC Math Directed Reading Program</h2>
-            <p><strong>January 2024 – May 2024</strong></p>
+            <p style="text-align: center; margin: 5px 0;"><strong>January 2024 – May 2024</strong></p>
             <p>
                 During my last semester, I was accepted into the directed reading program, where we self-study a specialized math topic. 
                 I was joined with a peer and a PhD student to mentor us, and we studied differential geometry and gave a presentation on minimal surfaces. 
@@ -32,18 +32,18 @@
 
         <section>
             <h2>Backend Developer – Green Capital Connect</h2>
-            <p><strong>August 2023 – December 2023</strong></p>
+            <p style="text-align: center; margin: 5px 0;"><strong>August 2023 – December 2023</strong></p>
             <p>
                 This was my senior year capstone project. A group of us computer science students worked on a startup for an interested party. 
                 The goal was to connect sustainability-conscious investors and clients. You can find a short presentation on the project 
                 <a href="https://github.com/anthonywinney/Green-Capital-Connect" target="_blank">here</a>. Below is an example of a profile on the webapp.
             </p>
-            <p>[Insert 401 screenshot]</p>
+            <img src="images/gcc screenshot.png" alt="Sample GCC Business Profile" class="photo2" />
         </section>
 
         <section>
             <h2>Talk2Trojans</h2>
-            <p><strong>August 2023 – December 2023</strong></p>
+            <p style="text-align: center; margin: 5px 0;"><strong>August 2023 – December 2023</strong></p>
             <p>
                 The goal of this app was to get a feel for Android app development in Java and maintaining data in Google Firebase. 
                 It supports connectivity, so updates made on one device will update for others. The features are pretty barebone, 
@@ -51,18 +51,26 @@
                 See some screenshots below and a link to the code 
                 <a href="https://github.com/anthonywinney/Talk2Trojans" target="_blank">here</a>.
             </p>
-            <p>[Insert TTT screenshots]</p>
+            <div class="image-container">
+                <img src="images/TTT home.png" alt="TTT Home Page" class="photo" />
+                <img src="images/TTT meetings.png" alt="TTT Meetings Page" class="photo" />
+                <img src="images/TTT friends.png" alt="TTT Friends Page" class="photo" />
+            </div>
         </section>
 
         <section>
             <h2>AI Puzzle Generator</h2>
-            <p><strong>August 2021 – December 2021</strong></p>
+            <p style="text-align: center; margin: 5px 0;"><strong>August 2021 – December 2021</strong></p>
             <p>
                 This was my first AI project, where I implemented a simple AI algorithm using hill-climbing and simulated annealing 
                 (i.e., finding the maximum by strategically stepping). You can find the code and an explanation of the puzzle 
                 <a href="https://github.com/anthonywinney/AI-Puzzle-Generator" target="_blank">here</a>.
             </p>
         </section>
-    </main>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Anthony Winney. All rights reserved.</p>
+    </footer>
 </body>
 </html>

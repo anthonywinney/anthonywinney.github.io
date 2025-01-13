@@ -62,3 +62,34 @@ footer {
     color: #666;
     font-size: 0.9rem;
 }
+
+.image-container {
+    display: flex;
+    justify-content: space-between;  /* Space out the images evenly */
+    gap: 1px;                      /* Optional: space between images */
+    margin: 1px;                 /* Optional: margin around the container */
+}
+
+.photo {
+    width: 30%;                     /* Makes each image take up about half of the container width */
+    height: 30%;                   /* Maintain aspect ratio */
+    display: block;                 /* Remove any extra space below the images */
+}
+
+.banner {
+    width: 100%; /* Makes the banner take up the full width of the screen */
+    overflow: hidden; /* Ensures that any image overflow is hidden */
+}
+
+.banner-image {
+    width: 100%; /* Makes the image resize to fill the width of the banner */
+    height: auto%; /* Keeps the aspect ratio of the image intact */
+}
+
+.code-font {
+    font-family: 'Courier New', Courier, monospace; /* Code-style font */
+    font-size: 1.5em; /* Larger font size */
+    background-color: #f0f0f0; /* Optional: to add a code block background */
+    padding: 2px 5px; /* Optional: to add spacing around the text */
+    border-radius: 3px; /* Optional: rounded corners for the code block look */
+}
