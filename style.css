@@ -76,6 +76,13 @@ footer {
     display: block;                 /* Remove any extra space below the images */
 }
 
+.photo2 {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .banner {
     width: 100%; /* Makes the banner take up the full width of the screen */
     overflow: hidden; /* Ensures that any image overflow is hidden */
