@@ -100,3 +100,349 @@ footer {
     padding: 2px 5px; /* Optional: to add spacing around the text */
     border-radius: 3px; /* Optional: rounded corners for the code block look */
 }
+
+/* ========== Insurance Modeling Dashboard ========== */
+
+.dashboard-container {
+    padding: 4rem 1.5rem 3rem;
+    max-width: 1100px;
+    margin: 4rem auto 0;
+}
+
+.dashboard-container h2 {
+    text-align: left;
+}
+
+/* Status Bar */
+.status-bar {
+    padding: 0.65rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.status-loading { background: #fff8e1; color: #5d3e00; border: 1px solid #ffc107; }
+.status-ready   { background: #e8f5e9; color: #1b5e20; border: 1px solid #4caf50; }
+.status-error   { background: #fce4ec; color: #7f0000; border: 1px solid #e57373; }
+
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(0,0,0,0.15);
+    border-top-color: #666;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.retry-btn {
+    background: none;
+    border: 1px solid currentColor;
+    padding: 0.15rem 0.55rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    margin-left: 0.4rem;
+    font-family: Arial, sans-serif;
+    color: inherit;
+}
+
+/* Filter Panel */
+.filter-panel {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.filter-panel-heading,
+.metric-panel-heading {
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #888;
+    margin: 0 0 0.75rem 0;
+}
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: flex-end;
+}
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 110px;
+    flex: 1;
+}
+.filter-group > label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.filter-group select {
+    padding: 0.38rem 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.88rem;
+    background: #fff;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+.filter-group select:disabled { background: #f5f5f5; color: #aaa; }
+
+/* Metric Panel */
+.metric-panel {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.metric-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+}
+.metric-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.88rem;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.7;
+}
+.metric-item input[type="checkbox"] { cursor: pointer; }
+.metric-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.btn-secondary {
+    background: #fff;
+    color: #444;
+    border: 1px solid #ccc;
+    padding: 0.28rem 0.85rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+.btn-secondary:hover { background: #f5f5f5; border-color: #aaa; }
+
+.metric-advanced {
+    margin-top: 0.75rem;
+    border-top: 1px solid #eee;
+    padding-top: 0.75rem;
+}
+.metric-advanced > summary {
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: #777;
+    user-select: none;
+    margin-bottom: 0.6rem;
+}
+
+/* Query Actions */
+.query-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.btn-primary {
+    background: #222;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.6rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+.btn-primary:hover:not(:disabled) { background: #444; }
+.btn-primary:disabled { background: #999; cursor: not-allowed; }
+.query-error { color: #c62828; font-size: 0.88rem; }
+
+/* Record Count Banner */
+.record-count-banner {
+    background: #e3f2fd;
+    border: 1px solid #90caf9;
+    color: #0d47a1;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    min-height: 2.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Charts */
+.chart-wrapper {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Summary Cards */
+.summary-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0.9rem 1rem;
+    flex: 1;
+    min-width: 170px;
+    max-width: 270px;
+}
+.stat-card-title {
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #222;
+    margin-bottom: 0.55rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #eee;
+}
+.stat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+.stat-key { color: #888; padding: 0.17rem 0.4rem 0.17rem 0; }
+.stat-val { font-weight: bold; text-align: right; color: #222; }
+
+/* Data Table */
+.data-table-wrapper { margin-bottom: 2rem; }
+.data-table-wrapper h2 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.6rem;
+}
+.table-scroll { overflow-x: auto; }
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    min-width: 380px;
+}
+.data-table th {
+    background: #222;
+    color: #fff;
+    padding: 0.55rem 0.85rem;
+    text-align: left;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    font-weight: bold;
+}
+.data-table td {
+    padding: 0.45rem 0.85rem;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tbody tr:nth-child(even) { background: #fafafa; }
+.data-table tbody tr:hover { background: #f0f4f8; }
+
+/* SQL Section */
+.sql-section { margin-bottom: 2rem; }
+.sql-section > summary {
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+    padding: 0.4rem 0;
+    user-select: none;
+}
+.sql-metric-block { margin: 1rem 0; }
+.sql-metric-name {
+    font-size: 0.78rem;
+    font-weight: bold;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+}
+.sql-block {
+    background: #f6f6f6;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 0.7rem 0.9rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    white-space: pre;
+    overflow-x: auto;
+    color: #333;
+    margin: 0;
+}
+.sql-params {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.78rem;
+    color: #999;
+    margin-top: 0.25rem;
+}
+
+/* Methodology */
+.methodology {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: #444;
+}
+.methodology h2 {
+    font-size: 0.82rem;
+    font-weight: bold;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin: 0 0 0.75rem 0;
+    text-align: left;
+}
+.methodology h3 {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+    margin: 1rem 0 0.25rem 0;
+}
+.methodology p { margin: 0.3rem 0; }
+.methodology ul { padding-left: 1.5rem; margin: 0.3rem 0; }
+.methodology li { margin: 0.25rem 0; }
+.methodology code {
+    font-family: 'Courier New', Courier, monospace;
+    background: #f4f4f4;
+    padding: 0 3px;
+    border-radius: 2px;
+    font-size: 0.85em;
+}
+
+/* Result state messages */
+.error-msg  { color: #c62828; font-weight: bold; }
+.empty-msg  { color: #e65100; }

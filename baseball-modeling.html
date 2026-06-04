@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthony Winney - Baseball Modeling</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="insurance-modeling.html">Insurance Modeling</a></li>
+            <li><a href="baseball-modeling.html">Baseball Modeling</a></li>
+            <li><a href="experience.html">Experience</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="changelog.html">Change Log</a></li>
+        </ul>
+    </nav>
+    <!-- Content -->
+    <div class="container">
+        <h1>Baseball Modeling</h1>
+
+        <p>A dream of mine for a while has been to build a predictive model for baseball, specifically predicting the winner of the game. Ideally, it would be good enough to beat the sports betting market, but this is an enormous task.</p>
+
+        <p>Something unique about baseball is that it's not timed. Therefore, there are a countable number of unique gamestates. Each gamestate is unique up to the number of pitches in the game, plus any events that happen in between pitches. Each gamestate is one possible data point, with all of its corresponding features (current score, players, current inning, etc.).</p>
+
+        <h2>Baseball Modeling MVP</h2>
+
+        <p>I have completed an MVP to demonstrate the intended functionality. The program uses the MLB-provided mlb-stats-api to create an original starter dataset and pull data from games in real time. Below is the command-line interface for the MVP.</p>
+
+        <img src="images/mvp demo.png" alt="Baseball Modeling MVP CLI Demo" class="photo2" />
+
+        <p>When the user runs the program, it prints all the day’s current and scheduled games, and the user can select any of them to make a prediction. In this screenshot, the user selected 7 for the current San Francisco Giants @ Arizona Diamondbacks game, and the model predicts that the home team will win with a probability of [0.3568]. The program also prints some stats for reference, which you see above the prediction.</p>
+
+        <p><a href="https://www.youtube.com/watch?v=90TUo76CbOc&t=640s" target="_blank">Here’s how that game actually ended</a>.</p>
+
+        <h2>Current State of the Project</h2>
+
+        <p>Currently, I am focused on building the data universe. Ideally, I would have every gamestate from every game ever played organized and at my fingertips. Sports data is very well kept, but unfortunately the overlords make it difficult for the public to download. I have considered various ways of gathering the data, but for now, I am trying to use a community-run data site, <a href="https://www.retrosheet.org/" target="_blank">Retrosheet</a>, to organize historical data. The data is kept in custom event files, and they need to be parsed to organize the data into usable Python dictionaries, for example.</p>
+
+        <p>This is the current task -- parsing the Retrosheet event files.</p>
+
+        <p>The data will be organized into Python "dict of dicts", 3 in total, one for each of batters, pitchers, and teams. Below is an outline of the batter dict of dicts, for example:</p>
+
+        <ul>
+            <li>Batter dict of dicts:
+                <ul>
+                    <li>Bryce Harper
+                        <ul>
+                            <li>At bats</li>
+                            <li>Home runs</li>
+                            <li>Walks</li>
+                            <li>Strikeouts</li>
+                            <li>…</li>
+                        </ul>
+                    </li>
+                    <li>Ketel Marte
+                        <ul>
+                            <li>At bats</li>
+                            <li>Home runs</li>
+                            <li>Walks</li>
+                            <li>Strikeouts</li>
+                            <li>…</li>
+                        </ul>
+                    </li>
+                    <li>…</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p>Note that all of these will be <strong>cumulative</strong>, meaning the "walks" entry in a batter's dict will be their total career walks up until that point. We will store the cumulative dict of dicts after every game parsed, and to get useful input variable values, we will difference the cumulative dict of dicts from two different dates to get the statistics in that time span. For example, if we think that "strikeout percentage in the last 10 games" will be a useful feature, we would calculate that using today's cumulative dict of dicts and the cumulative dict of dicts from 10 games ago. Also, it only makes sense to use raw statistics in this cumulative fashion to be used for differencing. Then, we can compute common secondary statistics such as strikeout percentage, batting average, on base percentage, etc.</p>
+
+        <h2>Roadmap and Ideas</h2>
+
+        <p>Here is a rough roadmap of the project:</p>
+
+        <img src="images/flow chart.png" alt="Baseball Modeling Roadmap Flow Chart" class="photo2" />
+
+        <p>The left flow chart is creating the training data, and the right flow chart is what we'll do with it. Given that we will have an enormous amount of data (approx. 150 pitches / team / game * 162 games / year * 30 teams * 100+ years = tens of millions of data points), a neural net will likely be our best bet.</p>
+
+        <p>We will use log-loss to determine model quality, and we will see how our predictions perform against the sportsbetting market. It is difficult but possible to get historical sportsbetting odds, which makes backtesting possible. Again, the lucrative outcome would be to build a model that reliably beats the sportsbetting market.</p>
+
+        <p>As far as future ideas, I have pondered other unconventional data types besides measurable statistics. One such data type that I actually tested is emotion data. I like to pay attention to the human element of the game. How are players reacting to key events? How is the pitcher keeping his composure? Are the batters visibly frustrated by the pitches they're receiving? I imagine this "emotional element" can be a good predictor for the outcome of the game, so I sought to test the hypothesis.</p>
+
+        <p>I collected a few photos showing clear shots of the players from each of the Diamondbacks' first 20 games in the 2025 season and used Deepface, an open-source AI algorithm, to classify each of the images into an emotion score. Then, I plotted the correlation between each of the emotions and win/loss outcome:</p>
+
+        <img src="images/emotion vs win.png" alt="Emotion vs Win Correlation Chart" class="photo2" />
+
+        <p>The results are what I personally would expect: happy emotion is most strongly correlated with the team winning, and neutral is most negatively correlated with the team winning. However, this is on a small sample size using published photos, which makes me think there could be selection bias at play. More robust analysis is needed.</p>
+
+        <p>Other ideas for unconventional data types would include community opinion, such as gathering natural language from social media sites or from announcers on the broadcasts themselves. This could also help capture the "vibe" of the game which doesn't show up well in raw numerical data.</p>
+
+        <h2>MVP Code and Presentation Slides</h2>
+
+        <p>I gave a guest presentation on this project for the USC class MATH 446: Data Science with Python in the Spring 2025 semester. You can find the slides for that presentation, along with the code for the MVP, <a href="https://github.com/anthonywinney/Baseball-Modeling-MVP" target="_blank">here</a>.</p>
+
+    </div>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Anthony Winney. All rights reserved.</p>
+    </footer>
+</body>
+</html>
