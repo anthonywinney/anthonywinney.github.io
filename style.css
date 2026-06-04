@@ -42,6 +42,31 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
+@media (max-width: 700px) {
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: 0.2rem;
+        padding: 0.25rem 0;
+    }
+
+    nav ul li {
+        margin: 0 0.45rem;
+    }
+
+    nav ul li a {
+        font-size: 0.82rem;
+    }
+
+    .container {
+        margin-top: 5.5rem;
+    }
+
+    .dashboard-container {
+        margin-top: 5.5rem;
+    }
+}
+
 /* Section Styling */
 .container {
     padding: 4rem 1rem;
