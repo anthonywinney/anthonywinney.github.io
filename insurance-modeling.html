@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Winney - Insurance Modeling</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -19,679 +18,68 @@
             <li><a href="changelog.html">Change Log</a></li>
         </ul>
     </nav>
-
-    <!-- Dashboard -->
-    <div class="dashboard-container">
+    <!-- Content -->
+    <div class="container">
         <h1>Insurance Modeling</h1>
-        <p style="text-align:center; color:#888; margin-top:-0.5rem; margin-bottom:2rem; font-size:0.95rem;">
-            Interactive analytics dashboard &mdash; <a href="https://www.kaggle.com/datasets/moneystore/agencyperformance" target="_blank" rel="noopener noreferrer">Kaggle Agency Performance dataset (2005&ndash;2015)</a>.
-            Select filters and metrics, then run a query to explore P&amp;C insurance trends.
+        <p>
+            This is an ongoing personal project exploring P&amp;C insurance data analysis, predictive modeling,
+            and actuarial methods. Each module below uses real datasets and targets actuarially relevant problems.
         </p>
 
-        <!-- Status Bar -->
-        <div id="status-bar" class="status-bar status-loading">
-            <span class="spinner" id="status-spinner"></span>
-            <span id="status-text">Loading backend. This free API may take up to 60 seconds to wake up.</span>
-        </div>
+        <div class="module-grid">
 
-        <!-- Filter Panel -->
-        <div class="filter-panel">
-            <div class="filter-panel-heading">Filters</div>
-            <div class="filter-row">
-                <div class="filter-group">
-                    <label for="filter-state">State</label>
-                    <select id="filter-state" disabled><option>Loading&hellip;</option></select>
+            <div class="module-card">
+                <div class="module-card-header">
+                    <h3>Dataset A &mdash; Part 1: Lookup / Analytics Dashboard</h3>
+                    <span class="module-status status-complete">Complete</span>
                 </div>
-                <div class="filter-group">
-                    <label for="filter-prodLine">Product Line</label>
-                    <select id="filter-prodLine" disabled><option>Loading&hellip;</option></select>
-                </div>
-                <div class="filter-group">
-                    <label for="filter-prodAbbr">Product</label>
-                    <select id="filter-prodAbbr" disabled><option>Loading&hellip;</option></select>
-                </div>
-                <div class="filter-group">
-                    <label for="filter-agencyId">Agency</label>
-                    <select id="filter-agencyId" disabled><option>Loading&hellip;</option></select>
-                </div>
-                <div class="filter-group">
-                    <label for="filter-primaryAgencyId">Parent Agency</label>
-                    <select id="filter-primaryAgencyId" disabled><option>Loading&hellip;</option></select>
-                </div>
-                <div class="filter-group">
-                    <label for="filter-vendor">Vendor</label>
-                    <select id="filter-vendor" disabled><option>Loading&hellip;</option></select>
-                </div>
+                <p>
+                    Interactive SQL-backed dashboard for the Kaggle Agency Performance dataset with filters,
+                    charts, summary stats, yearly tables, and SQL transparency.
+                </p>
+                <a href="insurance-modeling-analytics.html" class="module-card-link">Open &rarr;</a>
             </div>
-        </div>
 
-        <!-- Metric Selection -->
-        <div class="metric-panel">
-            <div class="metric-panel-heading">Metrics</div>
-            <div class="metric-controls">
-                <button id="select-defaults-btn" class="btn-secondary">Select Defaults</button>
-                <button id="clear-metrics-btn" class="btn-secondary">Clear Metrics</button>
+            <div class="module-card">
+                <div class="module-card-header">
+                    <h3>Dataset A &mdash; Part 2: Predictive Modeling</h3>
+                    <span class="module-status status-in-progress">In Progress</span>
+                </div>
+                <p>
+                    R-based predictive modeling of written premium, loss ratio, and retention ratio using
+                    regression, tree-based models, and mixed effects models.
+                </p>
+                <a href="insurance-modeling-predictive.html" class="module-card-link">View &rarr;</a>
             </div>
-            <div class="metric-group" id="financial-metrics"></div>
-            <details class="metric-advanced">
-                <summary>Show advanced activity metrics</summary>
-                <div class="metric-group" id="activity-metrics"></div>
-            </details>
-        </div>
 
-        <!-- Query Actions -->
-        <div class="query-actions">
-            <button id="run-query-btn" class="btn-primary" disabled>Run Query</button>
-            <span id="query-error" class="query-error"></span>
-        </div>
-
-        <!-- Results -->
-        <div id="results" style="display:none;">
-            <div id="record-count-banner" class="record-count-banner"></div>
-            <div id="charts-container"></div>
-            <div id="summary-cards" class="summary-cards"></div>
-            <div id="data-table-wrapper" class="data-table-wrapper"></div>
-            <details class="sql-section">
-                <summary>SQL Queries</summary>
-                <div id="sql-content"></div>
-            </details>
-            <div class="methodology">
-                <h2>Methodology</h2>
-                <h3>Dataset</h3>
-                <p>This dashboard uses the <strong>Kaggle Agency Performance Dataset</strong>, a real P&amp;C insurance dataset containing 213,328 rows of annual data from 2005 to 2015. Each row represents one Agency &times; Product &times; Product Line &times; State &times; Year observation.</p>
-                <h3>Metric Calculations</h3>
-                <ul>
-                    <li><strong>Loss Ratio</strong> is computed as <code>SUM(Incurred Losses) / SUM(Earned Premium)</code> aggregated per year. The dataset's raw <code>LOSS_RATIO</code> column is not used directly because it contains row-level sentinel values and outliers that distort aggregated averages.</li>
-                    <li><strong>Retention Ratio, 3-Year Loss Ratio, and 3-Year Growth Rate</strong> are averaged from the dataset's raw ratio columns after excluding sentinel values 99997, 99998, and 99999, which indicate missing or invalid data.</li>
-                    <li>All other financial metrics (premiums, losses) use <strong>SUM</strong> aggregation per year. All count metrics (policies, producers) also use <strong>SUM</strong>.</li>
-                </ul>
-                <h3>Record Counts</h3>
-                <p><strong>Matching records</strong>: total rows satisfying the active filters. <strong>Valid records</strong> (per metric): rows usable for that metric's calculation &mdash; excludes sentinel values for ratio metrics; requires non-null, non-zero earned premium for Loss Ratio.</p>
-                <h3>CAGR</h3>
-                <p>Compound Annual Growth Rate is shown for non-ratio metrics where both the first-year and last-year values are positive.</p>
+            <div class="module-card">
+                <div class="module-card-header">
+                    <h3>Dataset B: Schedule P / Reserving Methods</h3>
+                    <span class="module-status status-planned">Planned</span>
+                </div>
+                <p>
+                    CAS Schedule P reserving methods including chain ladder, Bornhuetter-Ferguson,
+                    Cape Cod, and reserve diagnostics.
+                </p>
+                <a href="insurance-modeling-reserving.html" class="module-card-link">View &rarr;</a>
             </div>
+
+            <div class="module-card">
+                <div class="module-card-header">
+                    <h3>Excel / VBA Implementation</h3>
+                    <span class="module-status status-planned">Planned</span>
+                </div>
+                <p>
+                    Standalone Excel/VBA version of selected dashboards and actuarial calculations.
+                </p>
+                <a href="insurance-modeling-excel.html" class="module-card-link">View &rarr;</a>
+            </div>
+
         </div>
     </div>
-
     <!-- Footer -->
     <footer>
         <p>&copy; 2026 Anthony Winney. All rights reserved.</p>
     </footer>
-
-    <script>
-    (function () {
-        'use strict';
-
-        var RENDER_API_BASE_URL = 'https://insurance-modeling-backend.onrender.com';
-        var LOCAL_API_BASE_URL  = 'http://localhost:3000';
-
-        var urlParams = new URLSearchParams(window.location.search);
-        var API_BASE  = urlParams.get('api') === 'local'
-            ? LOCAL_API_BASE_URL
-            : RENDER_API_BASE_URL;
-
-        var FINANCIAL_METRICS = [
-            { key: 'WRTN_PREM_AMT',         label: 'Written Premium',              unit: 'currency' },
-            { key: 'PRD_ERND_PREM_AMT',     label: 'Earned Premium',               unit: 'currency' },
-            { key: 'PRD_INCRD_LOSSES_AMT',  label: 'Incurred Losses',              unit: 'currency' },
-            { key: 'NB_WRTN_PREM_AMT',      label: 'New Business Written Premium', unit: 'currency' },
-            { key: 'PREV_WRTN_PREM_AMT',    label: 'Previous Written Premium',     unit: 'currency' },
-            { key: 'RETENTION_POLY_QTY',    label: 'Retained Policy Count',        unit: 'count'    },
-            { key: 'POLY_INFORCE_QTY',      label: 'Policies In Force',            unit: 'count'    },
-            { key: 'PREV_POLY_INFORCE_QTY', label: 'Previous Policies In Force',   unit: 'count'    },
-            { key: 'RETENTION_RATIO',       label: 'Retention Ratio',              unit: 'ratio'    },
-            { key: 'LOSS_RATIO',            label: 'Loss Ratio',                   unit: 'ratio'    },
-            { key: 'LOSS_RATIO_3YR',        label: '3-Year Loss Ratio',            unit: 'ratio'    },
-            { key: 'GROWTH_RATE_3YR',       label: '3-Year Growth Rate',           unit: 'ratio'    },
-            { key: 'ACTIVE_PRODUCERS',      label: 'Active Producers',             unit: 'count'    },
-        ];
-
-        var ACTIVITY_METRICS = [
-            { key: 'CL_BOUND_CT_MDS',         label: 'CL Bound (MDS)',         unit: 'count' },
-            { key: 'CL_QUO_CT_MDS',           label: 'CL Quote (MDS)',         unit: 'count' },
-            { key: 'CL_BOUND_CT_SBZ',         label: 'CL Bound (SBZ)',         unit: 'count' },
-            { key: 'CL_QUO_CT_SBZ',           label: 'CL Quote (SBZ)',         unit: 'count' },
-            { key: 'CL_BOUND_CT_eQT',         label: 'CL Bound (eQT)',         unit: 'count' },
-            { key: 'CL_QUO_CT_eQT',           label: 'CL Quote (eQT)',         unit: 'count' },
-            { key: 'PL_BOUND_CT_ELINKS',      label: 'PL Bound (eLinks)',      unit: 'count' },
-            { key: 'PL_QUO_CT_ELINKS',        label: 'PL Quote (eLinks)',      unit: 'count' },
-            { key: 'PL_BOUND_CT_PLRANK',      label: 'PL Bound (PLRank)',      unit: 'count' },
-            { key: 'PL_QUO_CT_PLRANK',        label: 'PL Quote (PLRank)',      unit: 'count' },
-            { key: 'PL_BOUND_CT_eQTte',       label: 'PL Bound (eQTte)',       unit: 'count' },
-            { key: 'PL_QUO_CT_eQTte',         label: 'PL Quote (eQTte)',       unit: 'count' },
-            { key: 'PL_BOUND_CT_APPLIED',     label: 'PL Bound (Applied)',     unit: 'count' },
-            { key: 'PL_QUO_CT_APPLIED',       label: 'PL Quote (Applied)',     unit: 'count' },
-            { key: 'PL_BOUND_CT_TRANSACTNOW', label: 'PL Bound (TransactNow)', unit: 'count' },
-            { key: 'PL_QUO_CT_TRANSACTNOW',   label: 'PL Quote (TransactNow)', unit: 'count' },
-        ];
-
-        var DEFAULT_METRICS = ['WRTN_PREM_AMT', 'LOSS_RATIO', 'RETENTION_RATIO'];
-        var initialized = false;
-
-        // ── Checkboxes ────────────────────────────────────────────────────────
-
-        function buildCheckboxes() {
-            buildGroup('financial-metrics', FINANCIAL_METRICS);
-            buildGroup('activity-metrics', ACTIVITY_METRICS);
-            document.getElementById('select-defaults-btn').addEventListener('click', function () {
-                FINANCIAL_METRICS.concat(ACTIVITY_METRICS).forEach(function (m) {
-                    var cb = document.getElementById('metric-' + m.key);
-                    if (cb) cb.checked = DEFAULT_METRICS.indexOf(m.key) !== -1;
-                });
-            });
-            document.getElementById('clear-metrics-btn').addEventListener('click', function () {
-                FINANCIAL_METRICS.concat(ACTIVITY_METRICS).forEach(function (m) {
-                    var cb = document.getElementById('metric-' + m.key);
-                    if (cb) cb.checked = false;
-                });
-            });
-        }
-
-        function buildGroup(containerId, metrics) {
-            var container = document.getElementById(containerId);
-            metrics.forEach(function (m) {
-                var lbl = document.createElement('label');
-                lbl.className = 'metric-item';
-                var cb = document.createElement('input');
-                cb.type = 'checkbox';
-                cb.value = m.key;
-                cb.id = 'metric-' + m.key;
-                cb.checked = DEFAULT_METRICS.indexOf(m.key) !== -1;
-                lbl.appendChild(cb);
-                lbl.appendChild(document.createTextNode(' ' + m.label));
-                container.appendChild(lbl);
-            });
-        }
-
-        function getSelectedMetrics() {
-            return FINANCIAL_METRICS.concat(ACTIVITY_METRICS)
-                .map(function (m) { return m.key; })
-                .filter(function (key) {
-                    var cb = document.getElementById('metric-' + key);
-                    return cb && cb.checked;
-                });
-        }
-
-        // ── Status Bar ────────────────────────────────────────────────────────
-
-        function setStatus(type, message) {
-            var bar     = document.getElementById('status-bar');
-            var spinner = document.getElementById('status-spinner');
-            var text    = document.getElementById('status-text');
-
-            bar.className = 'status-bar status-' + type;
-            spinner.style.display = type === 'loading' ? '' : 'none';
-
-            text.innerHTML = '';
-            text.appendChild(document.createTextNode(message));
-
-            if (type === 'error') {
-                var btn = document.createElement('button');
-                btn.className = 'retry-btn';
-                btn.textContent = 'Retry';
-                btn.onclick = init;
-                text.appendChild(document.createTextNode(' '));
-                text.appendChild(btn);
-            }
-        }
-
-        // ── Dropdowns ─────────────────────────────────────────────────────────
-
-        function populateSelect(id, values, defaultVal) {
-            var sel = document.getElementById(id);
-            sel.innerHTML = '';
-            values.forEach(function (v) {
-                var opt = document.createElement('option');
-                opt.value = v;
-                opt.textContent = v;
-                if (String(v) === String(defaultVal)) opt.selected = true;
-                sel.appendChild(opt);
-            });
-            sel.disabled = false;
-        }
-
-        function populateDropdowns(options) {
-            populateSelect('filter-state',           options.STATE_ABBR,        'OH');
-            populateSelect('filter-prodLine',        options.PROD_LINE,         'PL');
-            populateSelect('filter-prodAbbr',        options.PROD_ABBR,         'All');
-            populateSelect('filter-agencyId',        options.AGENCY_ID,         'All');
-            populateSelect('filter-primaryAgencyId', options.PRIMARY_AGENCY_ID, 'All');
-            populateSelect('filter-vendor',          options.VENDOR,            'All');
-        }
-
-        // ── Formatting ────────────────────────────────────────────────────────
-
-        function fmt(value, unit) {
-            if (value === null || value === undefined) return '—';
-            if (typeof value === 'number' && isNaN(value)) return '—';
-            if (unit === 'currency') {
-                var abs = Math.abs(value);
-                if (abs >= 1e9) return '$' + (value / 1e9).toFixed(2) + 'B';
-                if (abs >= 1e6) return '$' + (value / 1e6).toFixed(2) + 'M';
-                if (abs >= 1e3) return '$' + (value / 1e3).toFixed(1) + 'K';
-                return '$' + value.toFixed(2);
-            }
-            if (unit === 'ratio') return (value * 100).toFixed(1) + '%';
-            if (unit === 'count') return Math.round(value).toLocaleString();
-            return String(value);
-        }
-
-        // ── Slope Formatting ─────────────────────────────────────────────────
-
-        function fmtSlope(value, unit) {
-            if (value === null || value === undefined) return '—';
-            if (typeof value === 'number' && isNaN(value)) return '—';
-            var abs  = Math.abs(value);
-            var sign = value >= 0 ? '+' : '-';
-            if (unit === 'currency') {
-                var mag;
-                if (abs >= 1e9) mag = '$' + (abs / 1e9).toFixed(2) + 'B';
-                else if (abs >= 1e6) mag = '$' + (abs / 1e6).toFixed(2) + 'M';
-                else if (abs >= 1e3) mag = '$' + (abs / 1e3).toFixed(1) + 'K';
-                else mag = '$' + abs.toFixed(2);
-                return sign + mag + '/yr';
-            }
-            if (unit === 'ratio') return sign + (abs * 100).toFixed(2) + ' pp/yr';
-            if (unit === 'count') return sign + Math.round(abs).toLocaleString() + '/yr';
-            return sign + abs.toFixed(4) + '/yr';
-        }
-
-        // ── Charts ────────────────────────────────────────────────────────────
-
-        function renderCharts(results) {
-            var container = document.getElementById('charts-container');
-            container.innerHTML = '';
-
-            results.forEach(function (result) {
-                var wrapper = document.createElement('div');
-                wrapper.className = 'chart-wrapper';
-                var chartDiv = document.createElement('div');
-                chartDiv.id = 'chart-' + result.metric;
-                wrapper.appendChild(chartDiv);
-                container.appendChild(wrapper);
-
-                var years  = result.data.map(function (d) { return d.year; });
-                var values = result.data.map(function (d) { return d.value; });
-
-                var yTickFmt, hoverFmt, yTitle;
-                if (result.unit === 'currency') {
-                    yTickFmt = '$.3s';
-                    hoverFmt = '$%{y:,.0f}';
-                    yTitle   = result.displayName + ' (USD)';
-                } else if (result.unit === 'ratio') {
-                    yTickFmt = '.1%';
-                    hoverFmt = '%{y:.1%}';
-                    yTitle   = result.displayName;
-                } else {
-                    yTickFmt = ',.0f';
-                    hoverFmt = '%{y:,.0f}';
-                    yTitle   = result.displayName;
-                }
-
-                Plotly.newPlot(chartDiv, [{
-                    x: years,
-                    y: values,
-                    type: 'scatter',
-                    mode: 'lines+markers',
-                    name: result.displayName,
-                    line:   { color: '#1565c0', width: 2.5 },
-                    marker: { size: 7, color: '#1565c0' },
-                    hovertemplate: '%{x}<br>' + hoverFmt + '<extra></extra>',
-                }], {
-                    title: {
-                        text: result.displayName,
-                        font: { size: 15, family: 'Arial, sans-serif', color: '#222' },
-                        pad: { t: 8 },
-                    },
-                    xaxis: {
-                        title: 'Year',
-                        tickmode: 'linear',
-                        dtick: 1,
-                        gridcolor: '#eeeeee',
-                        linecolor: '#cccccc',
-                    },
-                    yaxis: {
-                        title: yTitle,
-                        tickformat: yTickFmt,
-                        gridcolor: '#eeeeee',
-                        linecolor: '#cccccc',
-                        zeroline: false,
-                    },
-                    paper_bgcolor: '#ffffff',
-                    plot_bgcolor:  '#ffffff',
-                    margin: { t: 55, r: 30, b: 55, l: 80 },
-                    font: { family: 'Arial, sans-serif', color: '#333', size: 12 },
-                    hoverlabel: {
-                        bgcolor: '#fff',
-                        bordercolor: '#ccc',
-                        font: { family: 'Arial, sans-serif' },
-                    },
-                }, {
-                    responsive: true,
-                    displayModeBar: false,
-                });
-            });
-        }
-
-        // ── Summary Cards ─────────────────────────────────────────────────────
-
-        function renderSummaryCards(results) {
-            var container = document.getElementById('summary-cards');
-            container.innerHTML = '';
-
-            results.forEach(function (result) {
-                var s = result.stats;
-
-                var rows = [
-                    ['Mean',   fmt(s.mean,       result.unit)],
-                    ['Min',    fmt(s.min,        result.unit)],
-                    ['Max',    fmt(s.max,        result.unit)],
-                    [(s.firstYear || 'First') + ' Value', fmt(s.firstValue,  result.unit)],
-                    [(s.lastYear  || 'Last')  + ' Value', fmt(s.latestValue, result.unit)],
-                ];
-                if (s.cagr !== null && s.cagr !== undefined) {
-                    rows.push(['CAGR', (s.cagr * 100).toFixed(1) + '%']);
-                }
-                if (s.trendSlope !== null && s.trendSlope !== undefined) {
-                    rows.push(['Trend Slope', fmtSlope(s.trendSlope, result.unit)]);
-                }
-                rows.push(['Valid Records', Number(result.validRecordCount).toLocaleString()]);
-
-                var card = document.createElement('div');
-                card.className = 'stat-card';
-
-                var titleEl = document.createElement('div');
-                titleEl.className = 'stat-card-title';
-                titleEl.textContent = result.displayName;
-                card.appendChild(titleEl);
-
-                var tbl = document.createElement('table');
-                tbl.className = 'stat-table';
-                rows.forEach(function (row) {
-                    var tr = document.createElement('tr');
-                    var tdK = document.createElement('td');
-                    tdK.className = 'stat-key';
-                    tdK.textContent = row[0];
-                    var tdV = document.createElement('td');
-                    tdV.className = 'stat-val';
-                    tdV.textContent = row[1];
-                    tr.appendChild(tdK);
-                    tr.appendChild(tdV);
-                    tbl.appendChild(tr);
-                });
-                card.appendChild(tbl);
-                container.appendChild(card);
-            });
-        }
-
-        // ── Data Table ────────────────────────────────────────────────────────
-
-        function addCell(row, tag, text) {
-            var el = document.createElement(tag);
-            el.textContent = text;
-            row.appendChild(el);
-        }
-
-        function renderDataTable(data) {
-            var wrapper = document.getElementById('data-table-wrapper');
-            wrapper.innerHTML = '';
-
-            var results = data.results;
-            if (!results || results.length === 0) return;
-
-            var yearSet = {};
-            results.forEach(function (r) {
-                r.data.forEach(function (d) { yearSet[d.year] = true; });
-            });
-            var years = Object.keys(yearSet).map(Number).sort(function (a, b) { return a - b; });
-
-            var lookup = {};
-            results.forEach(function (r) {
-                lookup[r.metric] = {};
-                r.data.forEach(function (d) { lookup[r.metric][d.year] = d.value; });
-            });
-
-            var h2 = document.createElement('h2');
-            h2.textContent = 'Yearly Data';
-            wrapper.appendChild(h2);
-
-            var scrollDiv = document.createElement('div');
-            scrollDiv.className = 'table-scroll';
-
-            var tbl = document.createElement('table');
-            tbl.className = 'data-table';
-
-            var thead = document.createElement('thead');
-            var hRow = document.createElement('tr');
-            addCell(hRow, 'th', 'Year');
-            results.forEach(function (r) { addCell(hRow, 'th', r.displayName); });
-            thead.appendChild(hRow);
-            tbl.appendChild(thead);
-
-            var tbody = document.createElement('tbody');
-            years.forEach(function (year) {
-                var tr = document.createElement('tr');
-                addCell(tr, 'td', year);
-                results.forEach(function (r) {
-                    var val = lookup[r.metric][year];
-                    addCell(tr, 'td', fmt(val !== undefined ? val : null, r.unit));
-                });
-                tbody.appendChild(tr);
-            });
-            tbl.appendChild(tbody);
-
-            scrollDiv.appendChild(tbl);
-            wrapper.appendChild(scrollDiv);
-        }
-
-        // ── SQL Section ───────────────────────────────────────────────────────
-
-        function renderSQL(results) {
-            var content = document.getElementById('sql-content');
-            content.innerHTML = '';
-            results.forEach(function (r) {
-                var block = document.createElement('div');
-                block.className = 'sql-metric-block';
-
-                var nameEl = document.createElement('div');
-                nameEl.className = 'sql-metric-name';
-                nameEl.textContent = r.displayName;
-                block.appendChild(nameEl);
-
-                var aggEl = document.createElement('div');
-                aggEl.className = 'sql-params';
-                aggEl.textContent = 'Aggregation: ' + r.aggregation;
-                block.appendChild(aggEl);
-
-                var pre = document.createElement('pre');
-                pre.className = 'sql-block';
-                pre.textContent = r.sqlTemplate;
-                block.appendChild(pre);
-
-                var paramsEl = document.createElement('div');
-                paramsEl.className = 'sql-params';
-                paramsEl.textContent = 'Parameters: ' + JSON.stringify(r.sqlParams);
-                block.appendChild(paramsEl);
-
-                content.appendChild(block);
-            });
-        }
-
-        // ── Results Loading / Error ───────────────────────────────────────────
-
-        function showResultsLoading() {
-            document.getElementById('results').style.display = 'block';
-
-            var banner = document.getElementById('record-count-banner');
-            banner.innerHTML = '';
-            var sp = document.createElement('span');
-            sp.className = 'spinner';
-            banner.appendChild(sp);
-            banner.appendChild(document.createTextNode(' Loading…'));
-
-            document.getElementById('charts-container').innerHTML    = '';
-            document.getElementById('summary-cards').innerHTML       = '';
-            document.getElementById('data-table-wrapper').innerHTML  = '';
-            document.getElementById('sql-content').innerHTML         = '';
-        }
-
-        function showResultsError(msg) {
-            document.getElementById('results').style.display = 'block';
-            var banner = document.getElementById('record-count-banner');
-            banner.innerHTML = '';
-            var span = document.createElement('span');
-            span.className = 'error-msg';
-            span.textContent = 'Error: ' + msg;
-            banner.appendChild(span);
-            document.getElementById('charts-container').innerHTML   = '';
-            document.getElementById('summary-cards').innerHTML      = '';
-            document.getElementById('data-table-wrapper').innerHTML = '';
-        }
-
-        // ── Render Results ────────────────────────────────────────────────────
-
-        function renderResults(data) {
-            document.getElementById('results').style.display = 'block';
-
-            var banner = document.getElementById('record-count-banner');
-            banner.innerHTML = '';
-
-            var activeFilters = [];
-            if (data.filters) {
-                Object.keys(data.filters).forEach(function (k) {
-                    var v = data.filters[k];
-                    if (v && v !== 'All') activeFilters.push(k + ': ' + v);
-                });
-            }
-
-            var strong = document.createElement('strong');
-            strong.textContent = Number(data.matchingRecordCount).toLocaleString();
-            banner.appendChild(strong);
-            banner.appendChild(document.createTextNode(
-                ' records matched' +
-                (activeFilters.length ? ' (' + activeFilters.join(', ') + ')' : ' (no filters applied)') +
-                '.'
-            ));
-
-            if (!data.results || data.results.length === 0) {
-                var emptyMsg = document.createElement('div');
-                emptyMsg.className = 'empty-msg';
-                emptyMsg.textContent = 'No data found for the selected filters.';
-                banner.parentNode.insertBefore(emptyMsg, banner.nextSibling);
-                document.getElementById('charts-container').innerHTML   = '';
-                document.getElementById('summary-cards').innerHTML      = '';
-                document.getElementById('data-table-wrapper').innerHTML = '';
-                return;
-            }
-
-            renderCharts(data.results);
-            renderSummaryCards(data.results);
-            renderDataTable(data);
-            renderSQL(data.results);
-        }
-
-        // ── Run Query ─────────────────────────────────────────────────────────
-
-        async function runQuery() {
-            var metrics = getSelectedMetrics();
-            var errSpan = document.getElementById('query-error');
-
-            if (metrics.length === 0) {
-                errSpan.textContent = 'Please select at least one metric.';
-                return;
-            }
-            errSpan.textContent = '';
-
-            var params = new URLSearchParams({ metrics: metrics.join(',') });
-
-            var filterMap = {
-                state:           'filter-state',
-                prodLine:        'filter-prodLine',
-                prodAbbr:        'filter-prodAbbr',
-                agencyId:        'filter-agencyId',
-                primaryAgencyId: 'filter-primaryAgencyId',
-                vendor:          'filter-vendor',
-            };
-            Object.keys(filterMap).forEach(function (param) {
-                var val = document.getElementById(filterMap[param]).value;
-                if (val && val !== 'All') params.append(param, val);
-            });
-
-            var btn = document.getElementById('run-query-btn');
-            btn.disabled = true;
-            btn.textContent = 'Loading…';
-
-            showResultsLoading();
-
-            var responseData;
-            try {
-                var res = await fetch(API_BASE + '/api/agency-summary?' + params.toString());
-                if (!res.ok) {
-                    var body = await res.json().catch(function () { return {}; });
-                    throw new Error(body.error || 'HTTP ' + res.status);
-                }
-                responseData = await res.json();
-            } catch (e) {
-                showResultsError(e.message);
-                btn.disabled = false;
-                btn.textContent = 'Run Query';
-                return;
-            }
-
-            renderResults(responseData);
-            btn.disabled = false;
-            btn.textContent = 'Run Query';
-        }
-
-        // ── Init ──────────────────────────────────────────────────────────────
-
-        async function init() {
-            if (!initialized) {
-                buildCheckboxes();
-                document.getElementById('run-query-btn').addEventListener('click', runQuery);
-                initialized = true;
-            }
-
-            var filterIds = ['filter-state','filter-prodLine','filter-prodAbbr',
-                             'filter-agencyId','filter-primaryAgencyId','filter-vendor'];
-            filterIds.forEach(function (id) {
-                document.getElementById(id).disabled = true;
-            });
-            document.getElementById('run-query-btn').disabled = true;
-
-            setStatus('loading', 'Loading backend. This free API may take up to 60 seconds to wake up.');
-
-            try {
-                var hRes = await fetch(API_BASE + '/api/health');
-                if (!hRes.ok) throw new Error('HTTP ' + hRes.status);
-                var hBody = await hRes.json();
-                if (hBody.status !== 'ok') throw new Error('Unexpected health response');
-            } catch (e) {
-                setStatus('error', 'Backend unavailable: ' + e.message + '.');
-                return;
-            }
-
-            setStatus('loading', 'Backend ready. Loading options…');
-
-            var options;
-            try {
-                var oRes = await fetch(API_BASE + '/api/options');
-                if (!oRes.ok) throw new Error('HTTP ' + oRes.status);
-                options = await oRes.json();
-            } catch (e) {
-                setStatus('error', 'Failed to load filter options: ' + e.message + '.');
-                return;
-            }
-
-            populateDropdowns(options);
-            document.getElementById('run-query-btn').disabled = false;
-            setStatus('ready', 'Ready.');
-
-            await runQuery();
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-    })();
-    </script>
 </body>
 </html>
