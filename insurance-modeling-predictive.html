@@ -20,16 +20,36 @@
     </nav>
     <!-- Content -->
     <div class="container">
-        <h1>Dataset A &mdash; Part 2: Predictive Modeling</h1>
-        <p style="text-align:center; color:#888; font-size:0.95rem;">
-            <a href="insurance-modeling.html">&larr; Back to Insurance Modeling</a>
-        </p>
-        <p>Coming soon.</p>
+        <h1>Predicting Next-Year Written Premium with Insurance Agency Performance Data</h1>
+
+        <h2>Abstract</h2>
         <p>
-            This module will cover R-based predictive modeling of written premium, loss ratio, and
-            retention ratio using regression, tree-based models, and mixed effects models applied to
-            the Kaggle Agency Performance dataset.
+            This project creates and selects predictive models for a publicly available dataset of property
+            and casualty insurance data concerning agency performance. Written premium under a logarithmic
+            transform was selected as the target variable with 48 other original columns in the raw dataset
+            to be used as potential predictors, with careful consideration of leakage &mdash; the scenario
+            is predicting written premium for the upcoming year. Data cleaning and predictor analysis were
+            performed to select a reasonable initial set of predictors. The models considered were OLS
+            (Ordinary Least Squares), RF (Random Forests), and LMM (Linear Mixed Models). While an RF was
+            selected as the leading predictive model, OLS served a useful role in rounding out the feature
+            analysis phase of the project, and LMM quantified variance attributable to agency and parent
+            agency identity which could not be measured using the other models. The leading RF model used
+            the predictors identified to be valuable via predictor analysis and OLS and was tuned on a small
+            hyperparameter grid. The RF had a test <em>R</em><sup>2</sup> of 0.8839, substantially better
+            than the leading OLS model&rsquo;s test <em>R</em><sup>2</sup> of 0.7552 and the leading LMM
+            model&rsquo;s test <em>R</em><sup>2</sup> of 0.7607. Further, the LMM revealed that agency
+            identity accounts for 24.22% of the remaining variance after controlling for the same
+            fixed-effect predictors used in the selected OLS and RF models. Motivated by the LMM&rsquo;s
+            result, <em>k</em>-means clustering was performed on the agencies, and an agency cluster
+            predictor was added to the RF, but this showed no improvement. In conclusion, the overall
+            leading model was an RF model tuned for selected hyperparameters using 10 selected predictors.
         </p>
+
+        <ul style="list-style: none; padding: 0; margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;">
+            <li><a href="Predicting_Next_Year_Written_Premium_with_Insurance_Agency_Performance_Data.pdf" target="_blank" rel="noopener noreferrer">Full Report PDF</a></li>
+            <li><a href="https://github.com/anthonywinney/insurance-modeling-backend" target="_blank" rel="noopener noreferrer">Code Repository</a></li>
+            <li><a href="https://www.kaggle.com/datasets/moneystore/agencyperformance" target="_blank" rel="noopener noreferrer">Raw Dataset</a></li>
+        </ul>
     </div>
     <!-- Footer -->
     <footer>

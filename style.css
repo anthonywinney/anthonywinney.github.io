@@ -143,14 +143,29 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.module-card:hover {
+    box-shadow: 0 3px 14px rgba(0,0,0,0.1);
+    border-color: #999;
+}
+
+.module-card-featured {
+    border-color: #c9a227;
+    background: #fffdf0;
+}
+.module-card-featured:hover {
+    border-color: #9a7810;
+    box-shadow: 0 3px 16px rgba(180,140,0,0.2);
 }
 
 .module-card-header {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
 .module-card h3 {
@@ -169,7 +184,7 @@ footer {
     padding: 0.18rem 0.55rem;
     border-radius: 3px;
     white-space: nowrap;
-    flex-shrink: 0;
+    align-self: flex-start;
 }
 .status-complete     { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
 .status-in-progress  { background: #fff8e1; color: #e65100; border: 1px solid #ffe082; }
@@ -180,18 +195,7 @@ footer {
     color: #555;
     margin: 0;
     line-height: 1.65;
-    flex: 1;
 }
-
-.module-card-link {
-    display: inline-block;
-    margin-top: 0.25rem;
-    font-size: 0.88rem;
-    color: #1565c0;
-    text-decoration: none;
-    font-weight: bold;
-}
-.module-card-link:hover { text-decoration: underline; }
 
 /* ========== Insurance Modeling Dashboard ========== */
 
